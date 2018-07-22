@@ -21,18 +21,18 @@ class RepetitionCommand {
     mediums.show();
      if (test.allDotsDead()) 
      {
-       step++;
        print("\n");
        print("\n");
        print(test.gen);
        print(". generation, Mutation rate: ");
-       print(0.01/(step/slowdown));
+       print(0.05/(step/slowdown));
        print("\n");
        
        //genetic algorithm
        test.calculateFitness();
        test.naturalSelection();
-       test.Mutate(0.01/(step/slowdown));  //////Spread of mutation
+       test.Mutate(0.05/(step/slowdown));  //////  Spread of mutation - keep under |0.5|
+       step++;
      } 
      else  //if any of the dots are still alive then update and then show them
      {

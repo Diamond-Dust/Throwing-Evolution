@@ -28,8 +28,9 @@ class Population {
   void update(Mediums mediums) {
     for (int i = 0; i< balls.length; i++) 
     {
-      mediums.checkCollision(balls[i]);
       balls[i].update();
+      mediums.checkCollision(balls[i]);
+      //print(i, " ", balls[i].acc.x, ",", balls[i].acc.y, " ", balls[i].vel.x, ",", balls[i].vel.y, "\n");
     }
   }
 

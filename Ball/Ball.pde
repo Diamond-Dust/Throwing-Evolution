@@ -8,7 +8,7 @@ class Ball {
   boolean isBest = false;//true if this dot is the best dot from the previous generation
 
   float fitness = 0;
-  float strength = 7;     //////  Strength of every throws
+  int strength = 7;     //////  Strength of every throws
   int step = 0;
   int numOfArcs = 2;    //////  Number of throws the ball will do
   int currentArc = 0;
@@ -98,7 +98,7 @@ class Ball {
 
   //calculates the fitness
   void calculateFitness() {
-     fitness += pos.x*pos.x*pos.x;
+     fitness += pos.x*pos.x;
   }
   
   //mutates
