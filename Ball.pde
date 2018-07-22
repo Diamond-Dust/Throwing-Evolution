@@ -12,6 +12,8 @@ class Ball {
   int step = 0;
   int numOfArcs = 2;    //////  Number of throws the ball will do
   int currentArc = 0;
+  
+  PShape path;
 
   Ball() {
 
@@ -23,7 +25,11 @@ class Ball {
     
     for(int i=0; i<numOfArcs; i++)
       arcs[i] = PVector.fromAngle(random(PI/2)-PI/2);    //random arc
-     
+
+    //start the path memory
+    noFill();                  
+    path = createShape();
+    path.setStroke(color(255,0,0));
   }
 
   //draws the dot on the screen
@@ -48,11 +54,17 @@ class Ball {
       step++;
       acc = arcs[currentArc].copy();
       acc.mult(strength);
+      
+      
+      path.beginShape();  //start the shape
     }
     else
     {
       step++;
       acc = acc.add(PVector.fromAngle(PI/2).mult(0.05));      //////  Set gravity in .mult(X)
+      
+      
+      path.vertex(pos.x, pos.y);    //add current position to the path
     }
 
     //apply the acceleration and move the dot
@@ -70,6 +82,9 @@ class Ball {
       {
         dead = true;
         vel = new PVector(0,0);
+        
+        path.endShape();  //stop recording the path when dead
+        shape(path);      //show the path taken
       }
       else if (pos.y>=800-1)
         {
@@ -78,7 +93,7 @@ class Ball {
           step = 0;
           currentArc++;
         }
-    }
+    } 
   }
 
   //calculates the fitness

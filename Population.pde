@@ -5,15 +5,20 @@ class Population {
   int gen = 1;
 
   int bestBall = 0;//the index of the best ball in the balls[]
+  
+  PShape lastBestBallPath;
 
   Population(int size) {
     balls = new Ball[size];
     for (int i = 0; i< size; i++) 
       balls[i] = new Ball();
+    lastBestBallPath = null;
   }
 
   //show all dots
   void show() {
+    if(gen != 1)
+      shape(lastBestBallPath);            //show the path of the last best ball
     for (int i = 1; i< balls.length; i++) 
       balls[i].show();
     balls[0].show();
@@ -123,6 +128,9 @@ class Population {
     print(" Distance: ");
     print(balls[bestBall].pos.x, " ");
     print("\n");
+    
+    lastBestBallPath = balls[bestBall].path;      //acquire the path of the best ball
+    lastBestBallPath.setStroke(color(0, 255, 0));
   }
   
   void restoreStart() {
