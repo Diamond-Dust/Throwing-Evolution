@@ -15,7 +15,7 @@ class Population {
     lastBestBallPath = null;
   }
 
-  //show all dots
+  //show all balls
   void show() {
     if(gen != 1)
       shape(lastBestBallPath);            //show the path of the last best ball
@@ -24,13 +24,12 @@ class Population {
     balls[0].show();
   }
 
-  //update all dots 
+  //update all balls 
   void update(Mediums mediums) {
     for (int i = 0; i< balls.length; i++) 
     {
       balls[i].update();
       mediums.checkCollision(balls[i]);
-      //print(i, " ", balls[i].acc.x, ",", balls[i].acc.y, " ", balls[i].vel.x, ",", balls[i].vel.y, "\n");
     }
   }
 
@@ -40,7 +39,7 @@ class Population {
       balls[i].calculateFitness();
   }
 
-  //returns whether all the dots are either dead or have reached the goal
+  //returns whether all the balls are on the ground
   boolean allDotsDead() {
     for (int i = 0; i< balls.length; i++) 
       if (!balls[i].dead) 
@@ -51,31 +50,22 @@ class Population {
 
   //gets the next generation of dots
   void naturalSelection() {
-    Ball[] newDots = new Ball[balls.length];         //next gen
+    Ball[] newBalls = new Ball[balls.length];         //next gen
     
-    print("Best old ball. Angles: ");
-    for(int i=0; i<balls[0].numOfArcs; i++)
-      print(balls[0].arcs[i].heading() / (2*PI) * -360, " ");
-    print(" Fitness: ");
-    print(balls[0].fitness);
-    print(" Distance: ");
-    print(balls[0].pos.x, " ");
-    print("\n");
-    
-    setBestDot();
+    setBestBall();
     calculateFitnessSum();
 
     //the champion lives on 
-    newDots[0] = balls[bestBall].Birth();
-    newDots[0].isBest = true;
+    newBalls[0] = balls[bestBall].Birth();
+    newBalls[0].isBest = true;
     
-    for (int i = 1; i< newDots.length; i++) 
+    for (int i = 1; i< newBalls.length; i++) 
     {
-      Ball parent = selectParent();                  //select parent based on fitness
-      newDots[i] = parent.Birth();                   //get baby from them
+      Ball parent = selectParent();                   //select parent based on fitness
+      newBalls[i] = parent.Birth();                   //get baby from them
     }
     
-    balls = newDots.clone();
+    balls = newBalls.clone();
     gen++;
   }
 
@@ -104,13 +94,13 @@ class Population {
   }
 
   //mutates all the babies
-  void Mutate(float rate) {
+  void Mutate(float range) {
     for (int i = 1; i < balls.length; i++) 
-      balls[i].Mutate(rate);
+      balls[i].Mutate(range);
   }
 
-  //finds the dot with the highest fitness and sets it as the best dot
-  void setBestDot() {
+  //finds the ball with the highest fitness and sets it as the best ball
+  void setBestBall() {
     float max = 0;
     int maxIndex = 0;
     for (int i = 0; i< balls.length; i++) 
@@ -121,6 +111,7 @@ class Population {
       }
 
     bestBall = maxIndex;
+    
     print("Best ball. Angles: ");
     for(int i=0; i<balls[bestBall].numOfArcs; i++)
       print(balls[bestBall].arcs[i].heading() / (2*PI) * -360, " ");
@@ -131,7 +122,7 @@ class Population {
     print("\n");
     
     lastBestBallPath = balls[bestBall].path;      //acquire the path of the best ball
-    lastBestBallPath.setStroke(color(0, 255, 0));
+    lastBestBallPath.setStroke(GREEN);
   }
   
   void restoreStart() {
